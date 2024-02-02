@@ -1,0 +1,7 @@
+.vscode/launch.json
+.vscode/tasks.json
+config/account-token.txt
+config/anime-list.txt
+config/grab-channel.txt
+config/spam-channel.txt
+.vscode/settings.json
