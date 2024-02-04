@@ -10,7 +10,7 @@ import sys
 
 def remove_false_text(text) -> str:
     remove_line_break = text.replace("\n", " ")[:-1]
-    cleaned_text = re.sub(r"^[^a-zA-Z0-9\)]*|[^a-zA-Z0-9\)]*$", "", remove_line_break)
+    cleaned_text = re.sub(r"^[^a-zA-Z0-9]*|[^a-zA-Z0-9\)]*$", "", remove_line_break)
     return cleaned_text
 
 
@@ -20,39 +20,27 @@ def get_card(type: str, url: str) -> list[str]:
     image = Image.open(BytesIO(response.content))
     image_array = np.array(image)
 
-    if type == "character name":
+    if type == "character":
         # CARD NAME COORDINATE
         start_y = 60
         end_y = 105
-
-        # FIRST CARD ONLY
-        card1_x = 50
-        card1_w = 235
-
-        # SECOND CARD ONLY
-        card2_x = 325
-        card2_w = 510
-
-        # THIRD CARD ONLY
-        card3_x = 605
-        card3_w = 780
 
     elif type == "anime":
         # CARD ANIME COORDINATE
         start_y = 310
         end_y = 360
 
-        # FIRST CARD ONLY
-        card1_x = 55
-        card1_w = 240
+    # FIRST CARD ONLY
+    card1_x = 55
+    card1_w = 240
 
-        # SECOND CARD ONLY
-        card2_x = 325
-        card2_w = 515
+    # SECOND CARD ONLY
+    card2_x = 325
+    card2_w = 515
 
-        # THIRD CARD ONLY
-        card3_x = 605
-        card3_w = 785
+    # THIRD CARD ONLY
+    card3_x = 605
+    card3_w = 785
 
 
     card1 = image_array[start_y:end_y, card1_x:card1_w]

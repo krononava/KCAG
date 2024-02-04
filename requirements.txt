@@ -4,3 +4,5 @@ opencv-python-headless
 pytesseract
 requests
 pillow
+thefuzz
+python-Levenshtein
