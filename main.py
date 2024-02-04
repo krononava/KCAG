@@ -18,7 +18,7 @@ with open('config/anime-list.txt') as file:
     user_animes = [line.strip() for line in file.readlines()]
 
 with open('config/character-list.txt') as file:
-    user_characters = file.read()
+    user_characters = [line.strip() for line in file.readlines()]
 
 with open('config/account-token.txt') as file:
     user_tokens = [line.strip() for line in file.readlines()]
@@ -158,18 +158,3 @@ for i in range(num_of_acc):
 
 gathered = asyncio.gather(*task_list)
 loop.run_until_complete(gathered)
-
-
-class bcolors:
-    HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
-    OKCYAN = '\033[96m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
-
-
-print(f"\n{bcolors.WARNING}Process Started{bcolors.ENDC}\n")

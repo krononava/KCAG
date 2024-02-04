@@ -10,7 +10,7 @@ with open('config/anime-list.txt') as file:
     user_animes = [line.strip() for line in file.readlines()]
 
 with open('config/character-list.txt') as file:
-    user_character = [line.strip() for line in file.readlines()]
+    user_characters = [line.strip() for line in file.readlines()]
 
 def fuzzy(cards: list[str], user_list: list[str]):
     for card in cards:
@@ -24,5 +24,5 @@ def fuzzy(cards: list[str], user_list: list[str]):
     return card_index
 
 if __name__ == '__main__':
-    cards = ocr.get_card('anime', sys.argv[1])
-    print(fuzzy(cards, user_animes))
+    cards = ocr.get_card(sys.argv[1], sys.argv[2])
+    print(fuzzy(cards, user_characters))
