@@ -116,7 +116,7 @@ class Main(discord.Client):
                 print("Cooldown is off.")
                 self._can_grab = True
 
-        if message.author.id == self.user.id:
+        if message.author.id == self.user.id and message.channel.id == grab_channel_id:
             response = command.parser(message.content)
             if response != None:
                 response = formatter.get_textblock(response)

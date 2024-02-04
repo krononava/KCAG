@@ -11,7 +11,7 @@ Since I have made a card farming bot for KaguyaBot, I figured it would be nice t
 ## Features
 
 - [x] card farming using anime name
-- [ ] card farming using character name
+- [x] card farming using character name
 - [ ] card farming using card tier
 
 ## Table of Content
@@ -33,6 +33,10 @@ Since I have made a card farming bot for KaguyaBot, I figured it would be nice t
 ## Usage
 
 Run ```run-container.bat```
+
+### Add to your preference
+
+Type ```kcag help``` in your grab channel
 
 ## Dependency
 
