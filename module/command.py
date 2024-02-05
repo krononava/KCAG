@@ -1,7 +1,7 @@
 try:
-    import config
-except:
     from module import config
+except:
+    import config
 
 list_of_command = ['kcag add anime',
                    'kcag add character',

@@ -1,10 +1,9 @@
-from thefuzz import process
-from thefuzz import fuzz
+from thefuzz import process, fuzz
 import sys
 try:
-    import ocr
-except:
     from module import ocr
+except:
+    import ocr
 
 with open('config/anime-list.txt') as file:
     user_animes = [line.strip() for line in file.readlines()]
