@@ -141,9 +141,9 @@ num_of_acc = len(user_tokens)
 accounts = []
 for i in range(num_of_acc):
     if i == 0: 
-        acc_obj = Main(guild_subscription_options=discord.GuildSubscriptionOptions.off())
+        acc_obj = Main()
     else:
-        acc_obj = SpamBot(guild_subscription_options=discord.GuildSubscriptionOptions.off())
+        acc_obj = SpamBot()
     accounts.append(acc_obj)
 
 
