@@ -108,7 +108,7 @@ class Main(discord.Client):
                         print("Cooldown is off.")
                         self._can_grab = True
             
-            if 'took the' in message.content and self._can_grab == True:
+            if 'took the' in message.content and self._can_grab == True and self.user.mentioned_in(message):
                 self._can_grab = False
                 print("Going into cooldown.")
                 await self.grab_channel.send('Manually grabbed card, going into cooldown.')
