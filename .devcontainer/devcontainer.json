@@ -22,7 +22,10 @@
 				"ms-python.vscode-pylance",
 				"ms-python.isort",
 				"njqdev.vscode-python-typehint",
-				"DavidAnson.vscode-markdownlint"
+				"DavidAnson.vscode-markdownlint",
+				"ms-python.debugpy",
+				"Gruntfuggly.todo-tree",
+				"donjayamanne.python-environment-manager"
 			]
 		}
 	},
