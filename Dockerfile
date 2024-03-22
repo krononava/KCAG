@@ -17,6 +17,7 @@ COPY . /app
 # Install Pytesseract library dependency
 RUN apt update && \
 apt install -y tesseract-ocr && \
+apt install -y git && \
 rm -rf /var/lib/apt/lists/*
 
 # Creates a non-root user with an explicit UID and adds permission to access the /app folder
