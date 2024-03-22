@@ -29,6 +29,21 @@ with open('config/grab-channel.txt') as file:
 with open('config/spam-channel.txt') as file:
     spam_channel_id = int(file.read())
 
+async def message_spam(spam_channel):
+    while True: 
+        sentence = " ".join([random.choice(words_list) for number_of_words in range(random.randint(2, 4))])
+        await spam_channel.send(sentence)
+        await asyncio.sleep(random.randint(5, 6))
+
+async def drop_scheduler(accs):
+    num_of_acc = len(user_tokens)
+    drop_cooldown = 30 # minutes
+    waitsec_per_acc = (drop_cooldown * 60) / num_of_acc
+    await asyncio.sleep(10)
+    while True:
+        for acc in accs:
+            await acc.send_drop()
+            await asyncio.sleep(waitsec_per_acc)
 
 class Main(discord.Client):
 
@@ -40,12 +55,12 @@ class Main(discord.Client):
 
         await self.grab_channel.send("kcd")
 
-        # fake activity to generate card drop
-        while True: 
-            sentence = " ".join([random.choice(words_list) for number_of_words in range(random.randint(2, 4))])
-            await self.spam_channel.send(sentence)
-            await asyncio.sleep(random.randint(5, 6))
+        task_spam = asyncio.create_task(message_spam(self.spam_channel))
+        await task_spam
 
+
+    async def send_drop(self):
+        await self.grab_channel.send('kd')
 
     async def on_message(self, message):
 
@@ -130,10 +145,13 @@ class SpamBot(discord.Client):
         self.spam_channel = self.get_channel(spam_channel_id)
 
         # fake activity to generate card drop
-        while True: 
-            sentence = " ".join([random.choice(words_list) for number_of_words in range(random.randint(2, 4))])
-            await self.spam_channel.send(sentence)
-            await asyncio.sleep(random.randint(5, 6))
+        task_spam = asyncio.create_task(message_spam(self.spam_channel))
+        # task_drop = asyncio.create_task(auto_drop(self.grab_channel))
+        await task_spam
+        # await task_drop
+
+    async def send_drop(self):
+        await self.grab_channel.send('kd')
 
 
 # Discount accounts instance creation
@@ -155,6 +173,7 @@ for i in range(num_of_acc):
     task = loop.create_task(account.start(token, reconnect = True))
     task_list.append(task)
 
-
+drop_task = loop.create_task(drop_scheduler(accounts))
+task_list.append(drop_task)
 gathered = asyncio.gather(*task_list)
 loop.run_until_complete(gathered)
