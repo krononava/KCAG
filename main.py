@@ -35,15 +35,6 @@ async def message_spam(spam_channel):
         await spam_channel.send(sentence)
         await asyncio.sleep(random.randint(5, 6))
 
-async def drop_scheduler(accs):
-    num_of_acc = len(user_tokens)
-    drop_cooldown = 30 # minutes
-    waitsec_per_acc = (drop_cooldown * 60) / num_of_acc
-    await asyncio.sleep(10)
-    while True:
-        for acc in accs:
-            await acc.send_drop()
-            await asyncio.sleep(waitsec_per_acc)
 
 class Main(discord.Client):
 
@@ -55,12 +46,8 @@ class Main(discord.Client):
 
         await self.grab_channel.send("kcd")
 
-        task_spam = asyncio.create_task(message_spam(self.spam_channel))
-        await task_spam
-
-
-    async def send_drop(self):
-        await self.grab_channel.send('kd')
+        spam_task = asyncio.create_task(message_spam(self.spam_channel))
+        await spam_task
 
     async def on_message(self, message):
 
@@ -143,15 +130,19 @@ class SpamBot(discord.Client):
     async def on_connect(self):
         print('Logged on as', self.user)
         self.spam_channel = self.get_channel(spam_channel_id)
+        self.grab_channel = self.get_channel(grab_channel_id)
+
+        await asyncio.sleep(3)
+        self.main_account = accounts[0].user.name
 
         # fake activity to generate card drop
-        task_spam = asyncio.create_task(message_spam(self.spam_channel))
-        # task_drop = asyncio.create_task(auto_drop(self.grab_channel))
-        await task_spam
-        # await task_drop
+        spam_task = asyncio.create_task(message_spam(self.spam_channel))
+        await spam_task
 
-    async def send_drop(self):
-        await self.grab_channel.send('kd')
+    async def on_message(self, message):
+        if self.main_account in str(message.author) and message.channel.id == grab_channel_id and message.content == "kd":     
+            await asyncio.sleep(range(10, 60))
+            await self.grab_channel.send('kd')
 
 
 # Discount accounts instance creation
@@ -173,7 +164,5 @@ for i in range(num_of_acc):
     task = loop.create_task(account.start(token, reconnect = True))
     task_list.append(task)
 
-drop_task = loop.create_task(drop_scheduler(accounts))
-task_list.append(drop_task)
 gathered = asyncio.gather(*task_list)
 loop.run_until_complete(gathered)

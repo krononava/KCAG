@@ -2,19 +2,21 @@ import os
 
 config_files = os.listdir("config")
 
-neccessary_files = ['account-token.txt', 'anime-list.txt', 'grab-channel.txt', 'spam-channel.txt', 'character-list.txt']
+essential_files = ['account-token.txt', 'grab-channel.txt', 'spam-channel.txt']
+optional_files = ['anime-list.txt', 'character-list.txt']
+all_files = essential_files + optional_files
 
 # Create config files if missing
 def init_files() -> None:
-    for filename in neccessary_files:
+    for filename in all_files:
         file_path = 'config/' + filename
-        if filename not in config_files:
+        if filename not in all_files:
             with open(file_path, 'a') as created_file:
                 pass
 
         with open(file_path, 'r') as existing_file:
             file_content = existing_file.read()
-            if file_content == "":
+            if file_content == "" and filename in essential_files:
                 raise EOFError(f"Missing {filename} configuration\nRefer to README.md documentation\n")
 
 def modify_file(filename: str, modification: str, text: str = ""):
