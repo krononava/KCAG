@@ -132,7 +132,7 @@ class SpamBot(discord.Client):
         self.spam_channel = self.get_channel(spam_channel_id)
         self.grab_channel = self.get_channel(grab_channel_id)
 
-        await asyncio.sleep(3)
+        await asyncio.sleep(5)
         self.main_account = accounts[0].user.name
 
         # fake activity to generate card drop
@@ -141,7 +141,7 @@ class SpamBot(discord.Client):
 
     async def on_message(self, message):
         if self.main_account in str(message.author) and message.channel.id == grab_channel_id and message.content == "kd":     
-            await asyncio.sleep(range(10, 60))
+            await asyncio.sleep(random.randint(10, 60))
             await self.grab_channel.send('kd')
 
 
