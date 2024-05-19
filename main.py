@@ -141,7 +141,7 @@ class SpamBot(discord.Client):
 
     async def on_message(self, message):
         if self.main_account in str(message.author) and message.channel.id == grab_channel_id and message.content == "kd":     
-            await asyncio.sleep(random.randint(10, 60))
+            await asyncio.sleep(random.randint(30, 180))
             await self.grab_channel.send('kd')
 
 
