@@ -1,0 +1,10 @@
+services:
+  default:
+    build:
+      context: ..
+      dockerfile: devcont/Dockerfile
+    volumes:
+      - ..:/workspace
+      - ~/dotfiles/kickstart.nvim:/root/.config/nvim
+    stdin_open: true  # equivalent to -i
+    tty: true         # equivalent to -t
