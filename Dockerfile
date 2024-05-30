@@ -39,8 +39,7 @@ RUN apt install -y python3 python3-pip && \
 
 CMD ["zellij", "options", "--default-shell", "fish"]
 
-# For more information, please refer to https://aka.ms/vscode-docker-python
-FROM python:3.11-slim AS prod
+FROM python:3.12-slim AS prod
 
 # Keeps Python from generating .pyc files in the container
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -49,8 +48,7 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
 # Use local region mirror for install packages
-RUN sed -i 's|http://archive.ubuntu.com/ubuntu|http://mirrors.gbnetwork.com/ubuntu|g' /etc/apt/sources.list.d/ubuntu.sources && \
-    apt update
+RUN apt update
 
 # Install Pytesseract library dependency
 RUN apt install -y tesseract-ocr && \
