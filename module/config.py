@@ -8,12 +8,16 @@ all_files = essential_files + optional_files
 
 # Create config files if missing
 def init_files() -> None:
+    # this loop makes sure to create all missing files first
     for filename in all_files:
         file_path = 'config/' + filename
-        if filename not in all_files:
+        if filename not in config_files:
             with open(file_path, 'a') as created_file:
                 pass
 
+    # this loop then verify the content of the created files
+    for filename in all_files:
+        file_path = 'config/' + filename
         with open(file_path, 'r') as existing_file:
             file_content = existing_file.read()
             if file_content == "" and filename in essential_files:
