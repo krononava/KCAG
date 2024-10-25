@@ -29,6 +29,12 @@ with open('config/grab-channel.txt') as file:
 with open('config/spam-channel.txt') as file:
     spam_channel_id = int(file.read())
 
+async def message_spam(spam_channel):
+    while True: 
+        sentence = " ".join([random.choice(words_list) for number_of_words in range(random.randint(2, 4))])
+        await spam_channel.send(sentence)
+        await asyncio.sleep(random.randint(5, 6))
+
 
 class Main(discord.Client):
 
@@ -40,12 +46,8 @@ class Main(discord.Client):
 
         await self.grab_channel.send("kcd")
 
-        # fake activity to generate card drop
-        while True: 
-            sentence = " ".join([random.choice(words_list) for number_of_words in range(random.randint(2, 4))])
-            await self.spam_channel.send(sentence)
-            await asyncio.sleep(random.randint(5, 6))
-
+        spam_task = asyncio.create_task(message_spam(self.spam_channel))
+        await spam_task
 
     async def on_message(self, message):
 
@@ -128,12 +130,19 @@ class SpamBot(discord.Client):
     async def on_connect(self):
         print('Logged on as', self.user)
         self.spam_channel = self.get_channel(spam_channel_id)
+        self.grab_channel = self.get_channel(grab_channel_id)
+
+        await asyncio.sleep(5)
+        self.main_account = accounts[0].user.name
 
         # fake activity to generate card drop
-        while True: 
-            sentence = " ".join([random.choice(words_list) for number_of_words in range(random.randint(2, 4))])
-            await self.spam_channel.send(sentence)
-            await asyncio.sleep(random.randint(5, 6))
+        spam_task = asyncio.create_task(message_spam(self.spam_channel))
+        await spam_task
+
+    async def on_message(self, message):
+        if self.main_account in str(message.author) and message.channel.id == grab_channel_id and message.content == "kd":     
+            await asyncio.sleep(random.randint(30, 180))
+            await self.grab_channel.send('kd')
 
 
 # Discount accounts instance creation
@@ -141,9 +150,9 @@ num_of_acc = len(user_tokens)
 accounts = []
 for i in range(num_of_acc):
     if i == 0: 
-        acc_obj = Main(guild_subscription_options=discord.GuildSubscriptionOptions.off())
+        acc_obj = Main()
     else:
-        acc_obj = SpamBot(guild_subscription_options=discord.GuildSubscriptionOptions.off())
+        acc_obj = SpamBot()
     accounts.append(acc_obj)
 
 
@@ -154,7 +163,6 @@ for i in range(num_of_acc):
     token = user_tokens[i]
     task = loop.create_task(account.start(token, reconnect = True))
     task_list.append(task)
-
 
 gathered = asyncio.gather(*task_list)
 loop.run_until_complete(gathered)

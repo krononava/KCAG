@@ -6,3 +6,4 @@ config/grab-channel.txt
 config/spam-channel.txt
 .vscode/settings.json
 config/character-list.txt
+module/__pycache__
